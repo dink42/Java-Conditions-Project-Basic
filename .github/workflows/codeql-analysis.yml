@@ -1,0 +1,126 @@
+# For most projects, this workflow file will not need changing; you simply need
+# to commit it to your repository.
+#
+# You may wish to alter this file to override the set of languages analyzed,
+# or to provide custom queries or build logic.
+#
+# ******** NOTE ********
+# We have attempted to detect the languages in your repository. Please check
+# the `language` matrix defined below to confirm you have the correct set of
+# supported CodeQL languages.
+#
+name: "CodeQL"
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ main ]
+  schedule:
+    - cron: '42 16 * * 5'
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ csharp ]
+        # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python' ]
+        # Learn more:
+        # https://docs.github.com/en/free-pro-team@latest/github/finding-security-vulnerabilities-and-errors-in-your-code/configuring-code-scanning#changing-the-languages-that-are-analyzed
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # Initializes the CodeQL tools for scanning.
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
+      with:
+        languages: ${{ matrix.language }}
+        # If you wish to specify custom queries, you can do so here or in a config file.
+        # By default, queries listed here will override any specified in a config file.
+        # Prefix the list here with "+" to use these queries and those in the config file.
+        # queries: ./path/to/local/query, your-org/your-repo/queries@main
+
+    # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
+    # If this step fails, then you should remove it and run the build manually (see below)
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v1
+
+    # ℹ️ Command-line programs to run using the OS shell.
+    # 📚 https://git.io/JvXDl
+
+    # ✏️ If the Autobuild fails above, remove it and uncomment the following three lines
+    #    and modify them (or add more) to build your code if your project
+    #    uses a compiled language
+
+    #- run: |
+    #   make bootstrap
+    #   make release
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v1
+    version: 2
+    updates:
+    - package-ecosystem: "github-actions"
+      directory: "/"
+      schedule:
+      interval: "daily"
+
+    - package-ecosystem: "npm"
+      directory: "/app"
+      schedule:
+      interval: "daily"
+      day: "sunday"
+      time: "09:00"
+      timezone: "Europe/Stockholm"
+      versioning-strategy: widen
+      rebase-strategy: "disabled"
+      open-pull-requests-limit: 0
+      milestone: 4
+      labels:
+      - "npm"
+      - "dependencies"
+      ignore:
+      dependency-name: "express"
+      versions: ["4.x", "5.x"]
+      commit-message:
+      prefix: "npm"
+
+    - package-ecosystem: "composer"
+      allow:
+      dependency-type: "all"
+      include: "scope"
+
+    - package-ecosystem: "pip"
+      directory: "/"
+      schedule:
+      interval: "daily"
+      allow:
+      dependency-name: "django*"
+      dependency-type: "direct"
+      - "production"
+      versioning-strategy: lockfile-only
+      target-branch: "develop"
+      labels:
+      - "pip dependencies"
+      reviewers:
+      - "octocat"
+      - "my-username"
+      - "my-org/python-team"
+      open-pull-requests-limit: 10
+      commit-message:
+      prefix: "pip prod"
+      prefix-development: "pip dev"
+      include: "scope"
+      
+    - package-ecosystem: "gomod"
+      vendor: true
+      directory: "/"
+      schedule:
+      interval: "weekly"
