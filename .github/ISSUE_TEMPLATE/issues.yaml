@@ -1,6 +1,6 @@
 name: 🐞 Wrong with workflow or file
 description: File a issue
-title: "[BUG] <title>"
+title: "Bug, File issue"
 labels: ["Issue", "File/Workflow error"]
 body:
 - type: checkboxes
