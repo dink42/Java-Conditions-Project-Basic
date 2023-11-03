@@ -1,18 +1,15 @@
-name: 🐞 Bug
-description: File a bug/issue
-title: "[BUG] <title>"
-labels: ["Bug", "Needs Triage"]
+name: 🐞 Wrong with workflow or similair
+description: File a issue
+title: "<title>"
+labels: ["Issue", "File/Workflow need check"]
 body:
 - type: checkboxes
   attributes:
     label: Is there an existing issue for this?
-    description: Please search to see if an issue already exists for the bug you encountered.
-    options:
-    - label: I have searched the existing issues
-      required: true
+   required: true
 - type: textarea
   attributes:
-    label: Current Behavior
+    label: What is the issue?
     description: A concise description of what you're experiencing.
   validations:
     required: false
