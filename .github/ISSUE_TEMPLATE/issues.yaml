@@ -1,4 +1,4 @@
-name: 🐞 Wrong with workflow or similair
+name: 🐞 Wrong with workflow or file
 description: File a issue
 title: "[BUG] <title>"
 labels: ["Issue", "File/Workflow error"]
