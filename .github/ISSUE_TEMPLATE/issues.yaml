@@ -3,7 +3,6 @@ description: File a issue
 title: "<title>"
 labels: ["Issue", "File/Workflow need check"]
 body:
-- type: checkboxes
   attributes:
     label: Is there an existing issue for this?
    required: true
